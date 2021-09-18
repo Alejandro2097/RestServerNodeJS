@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+var cors = require('cors');
 const app = express()
 
 class Server{
@@ -7,6 +8,8 @@ class Server{
         this.port = process.env.PORT;
         //Midelwares
         //Funciones que siempre se ejecutan junto con el servidor.
+        //CORS
+        app.use(cors())
         this.middlewares();
         //Rutas de mi aplicacion.
         this.routes();
@@ -29,7 +32,7 @@ class Server{
             });
         });
         this.app.post('/api', (req, res) => {
-            res.status(403).json({
+            res.status(201).json({
                 "ok" : true,
                 "msg": "post API"
             });
