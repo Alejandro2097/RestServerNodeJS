@@ -1,5 +1,6 @@
 const Role = require('../models/role');
 const Usuario = require('../models/usuario');
+const Categoria = require('../models/categoria');
 
 const esRoleValido = async(rol = '') => {
 
@@ -28,10 +29,20 @@ const existeUsuarioPorId = async( id ) => {
 }
 
 
+//Validador personalizado de categorias 
+const existeCategoria = async( id ) =>{
+    //Verificar que la categoria existe UwU
+    const existeCate = await Categoria.findById(id);
+    if(!existeCate) {
+        throw new Error(`El id no existe ${id}`);
+    }
+}
+
 
 module.exports = {
     esRoleValido,
     emailExiste,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    existeCategoria
 }
 
