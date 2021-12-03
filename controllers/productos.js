@@ -53,9 +53,28 @@ const crearProducto = async(req, res = response) =>{
     await producto.save();
     res.status(200).json(producto);
 }
-const productosPut = async
+const productosPut = async(req, res = response ) =>{
+    const { id } = req.params;
+    const { estado, usuario, ...data} = req.body;
+
+    if(data.nombre){
+        data.nombre = data.nombre.toUpperCase();
+    }
+    data.usuario = req.usuario._id;
+    const producto = await Producto.findByIdAndUpdate(id , data, { new: true});
+    res.json(producto);
+}
+const productosDelete = async(req, res = response ) =>{
+    const { id } = req.params;
+
+    const productoBorrado = await Producto.findByIdAndUpdate(id, {estado: false}, {new: true});
+
+    res.json(productoBorrado);
+}
 module.exports = {
     productosGet,
     crearProducto,
-    obtenerProducto
+    obtenerProducto,
+    productosPut,
+    productosDelete
 }

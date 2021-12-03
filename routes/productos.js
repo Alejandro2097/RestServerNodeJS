@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { productosGet, crearProducto, obtenerProducto } = require('../controllers/productos');
+const { productosGet, crearProducto, obtenerProducto, productosPut, productosDelete } = require('../controllers/productos');
 const { existeCategoria, existeProductoporID } = require('../helpers/db-validators');
 
 const { validarJWT, validarCampos, esAdminRole } = require('../middlewares');
@@ -24,11 +24,18 @@ router.post('/', [
     validarCampos
 ],crearProducto);
 //Actualizar cualquiera con token valido.
-router.put('/:id', (req, res) =>{
-    res.json('Actualizar producto')
-});
+router.put('/:id', [
+    validarJWT,
+     // check('categoria','No es un id de Mongo').isMongoId(),
+    check('id').custom(existeProductoporID),
+    validarCampos
+],productosPut);
 //Eliminar un producto
-router.delete('/:id', (req, res) =>{
-    res.json('Borrar producto');
-});
+router.delete('/:id', [
+    validarJWT,
+    esAdminRole,
+    check('id', 'No es un id valido de Mongo').isMongoId(),
+    check('id').custom(existeProductoporID),
+    validarCampos
+],productosDelete);
 module.exports = router;

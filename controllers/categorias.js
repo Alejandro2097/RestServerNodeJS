@@ -74,7 +74,7 @@ const categoriasDelete = async(req, res = response ) => {
 
     const categoriaBorrada = await Categoria.findByIdAndUpdate(id ,{estado : false} , {new:  true});
 
-    res.json(categoriaBorrada);0
+    res.json(categoriaBorrada);
 }
 
 
