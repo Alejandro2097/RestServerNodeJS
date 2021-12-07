@@ -141,6 +141,7 @@ const actualizarImagenCloudinary = async(req, res = response) =>{
   // const nombre = await subirArchivo(req.files, undefined, coleccion);
    modelo.img =  secure_url;
   // await modelo.save();
+  await modelo.save();
 
 
   res.json(modelo);
